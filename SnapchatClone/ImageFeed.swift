@@ -74,6 +74,9 @@ func addPost(postImage: UIImage, thread: String, username: String) {
                                         "thread": thread as AnyObject,
                                         "date": dateString as AnyObject]
     // YOUR CODE HERE
+    dbRef.child(firPostsNode).childByAutoId().setValue(postDict)
+    //maybe firImagePath or somethig like that.
+    store(data: data, toPath: path)
 }
 
 
@@ -83,12 +86,12 @@ func addPost(postImage: UIImage, thread: String, username: String) {
 // reference.
 //
 func store(data: Data?, toPath path: String) {
-//    let storageRef = Storage.storage().reference()
-//    storageRef.child(path).putData(data!, metadata: nil) { (metadata, error) in
-//        if let error = error {
-//            print(error)
-//        }
-//    }
+    let storageRef = Storage.storage().reference()
+    storageRef.child(path).putData(data!, metadata: nil) { (metadata, error) in
+        if let error = error {
+            print(error)
+        }
+    }
 }
 
 

@@ -41,7 +41,7 @@ class CurrentUser {
     func getReadPostIDs(completion: @escaping ([String]) -> Void) {
         var postArray: [String] = []
         // YOUR CODE HERE
-        dbRef.child("readPosts").child(id).observeSingleEvent(of: .value) { (snapshot) in
+        dbRef.child(firReadPostsNode).child(id).observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
                 if let userDict = snapshot.value as? [String:Any] {
                     for (keys, _) in userDict {
@@ -63,7 +63,7 @@ class CurrentUser {
     func addNewReadPost(postID: String) {
         // YOUR CODE HERE
         
-        dbRef.child("readPosts").child(id).childByAutoId().setValue(postID)
+        dbRef.child(firReadPostsNode).child(id).childByAutoId().setValue(postID)
         
     }
     
