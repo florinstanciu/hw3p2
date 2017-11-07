@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import FirebaseDatabase
+import FirebaseStorage
 
 var threads: [String: [Post]] = ["Memes": [], "Dog Spots": [], "Random": []]
 
@@ -60,17 +62,17 @@ func clearThreads() {
  */
 func addPost(postImage: UIImage, thread: String, username: String) {
     // Uncomment the lines beneath this one if you've already connected Firebase:
-//    let dbRef = Database.database().reference()
-//    let data = UIImageJPEGRepresentation(postImage, 1.0)
-//    let path = "Images/\(UUID().uuidString)"
-//
-//    let dateFormatter = DateFormatter()
-//    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.A"
-//    let dateString = dateFormatter.string(from: Date())
-//    let postDict: [String:AnyObject] = ["imagePath": path as AnyObject,
-//                                        "username": username as AnyObject,
-//                                        "thread": thread as AnyObject,
-//                                        "date": dateString as AnyObject]
+    let dbRef = Database.database().reference()
+    let data = UIImageJPEGRepresentation(postImage, 1.0)
+    let path = "Images/\(UUID().uuidString)"
+
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.A"
+    let dateString = dateFormatter.string(from: Date())
+    let postDict: [String:AnyObject] = ["imagePath": path as AnyObject,
+                                        "username": username as AnyObject,
+                                        "thread": thread as AnyObject,
+                                        "date": dateString as AnyObject]
     // YOUR CODE HERE
 }
 
