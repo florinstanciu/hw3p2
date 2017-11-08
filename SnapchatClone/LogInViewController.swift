@@ -84,11 +84,11 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     // Hint: Just check if the current user is nil using firebase and if not, perform a segue. You're welcome :)
     override func viewDidAppear(_ animated: Bool) {
         //YOUR CODE HERE
-//        Auth.auth().addStateDidChangeListener { (auth, user) in
-//            if user != nil {
-//                performSegue(withIdentifier: segueLogInToMainPage, sender: self)
-//            }
-//        }
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                self.performSegue(withIdentifier: segueLogInToMainPage, sender: self)
+            }
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

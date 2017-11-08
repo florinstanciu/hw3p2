@@ -115,22 +115,42 @@ func store(data: Data?, toPath path: String) {
  Remember to use constants defined in Strings.swift to refer to the correct path!
  */
 func getPosts(user: CurrentUser, completion: @escaping ([Post]?) -> Void) {
-    
+    var postArray: [Post] = []
+    let dbRef = Database.database().reference()
+    dbRef.child(firPostsNode).observeSingleEvent(of: .value) { (snapshot) in
+        if snapshot.exists() {
+            if let dictOfPosts = snapshot.value as? [String:Any] {
+                user.getReadPostIDs(completion: { (ids) in
+                    for keys in dictOfPosts.keys {
+                        if let dictOfVals = dictOfPosts[keys] as? [String: String]{
+                            let newPost = Post(id: keys, username: dictOfVals["username"]!, postImagePath: dictOfVals["imagePath"]!, thread: dictOfVals["thread"]!, dateString: dictOfVals["date"]!, read: ids.contains(keys))
+                            postArray.append(newPost)
+                        }
+                    }
+                    completion(postArray)
+                })
+            } else {
+                completion(nil)
+            }
+        } else {
+            completion(nil)
+        }
+    }
 }
 
 // TODO:
 // Uncomment the lines in the function when you reach the appriopriate par in the README.
 func getDataFromPath(path: String, completion: @escaping (Data?) -> Void) {
-//    let storageRef = Storage.storage().reference()
-//    storageRef.child(path).getData(maxSize: 5 * 1024 * 1024) { (data, error) in
-//        if let error = error {
-//            print(error)
-//        }
-//        if let data = data {
-//            completion(data)
-//        } else {
-//            completion(nil)
-//        }
-//    }
+    let storageRef = Storage.storage().reference()
+    storageRef.child(path).getData(maxSize: 5 * 1024 * 1024) { (data, error) in
+        if let error = error {
+            print(error)
+        }
+        if let data = data {
+            completion(data)
+        } else {
+            completion(nil)
+        }
+    }
 }
 

@@ -44,13 +44,14 @@ class CurrentUser {
         dbRef.child(firReadPostsNode).child(id).observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
                 if let userDict = snapshot.value as? [String:Any] {
-                    for (keys, _) in userDict {
+                    for keys in userDict.keys {
                         postArray.append(keys)
                     }
-                    completion(postArray)
+//                    completion(postArray)
                 }
             }
         }
+        completion(postArray)
     }
     
     /*

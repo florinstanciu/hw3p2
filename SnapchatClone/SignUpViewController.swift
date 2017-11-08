@@ -46,17 +46,19 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                     // already exists somewhere, just do some simple debugging to find the identifier.
                     // Also, notify the user that the account has been successfully created before
                     // performing the segue.
-                    user?.createProfileChangeRequest().displayName = name
-                    user?.createProfileChangeRequest().commitChanges(completion: { (error) in
+                    let changeRequest = user!.createProfileChangeRequest()
+                    changeRequest.displayName = name
+                    changeRequest.commitChanges(completion: { (error) in
                         if error == nil  {
-                            let successAlertController = UIAlertController(title: "Success", message: "Your account has been created!", preferredStyle: .alert)
-                            successAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                                self.performSegue(withIdentifier: segueSignUpToMainPage, sender: self)
-                            }))
-                            self.present(successAlertController, animated: true, completion: nil)
-                            
+
                         }
-                        
+                        let successAlertController = UIAlertController(title: "Success", message: "Your account has been created!", preferredStyle: .alert)
+                        successAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                            self.performSegue(withIdentifier: segueSignUpToMainPage, sender: self)
+                        }))
+                        self.present(successAlertController, animated: true, completion: nil)
+
+
                     })
                     
                 } else if password != verifiedPassword {
@@ -72,6 +74,15 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                     self.present(alertController, animated: true, completion: nil)
                 }
             }
+            
+//            let curentuser = Auth.auth().currentUser?.createProfileChangeRequest()
+//            curentuser?.displayName = name
+//            curentuser?.commitChanges(completion: nil)
+//            let successAlertController = UIAlertController(title: "Success", message: "Your account has been created!", preferredStyle: .alert)
+//            successAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+//               self.performSegue(withIdentifier: segueSignUpToMainPage, sender: self)
+//            }))
+//            self.present(successAlertController, animated: true, completion: nil)
         }
 //        performSegue(withIdentifier: segueSignUpToMainPage, sender: self)
     }
